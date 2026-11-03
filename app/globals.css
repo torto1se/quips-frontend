@@ -1,8 +1,21 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+@theme {
+  --color-accent: #a73bef; /* Главный фиолетово-розовый цвет */
+  --color-accent-dark: #1d1234; /* Темно-фиолетовый (для ховеров или подложек под акцент) */
+
+  --color-bg-page: #05070d; /* цвет для самой страницы */
+  --color-bg-card: #040911; /* цвет для карточек, форм, блоков */
+
+  --color-text-main: #d5d0da; /* Основной читаемый текст */
+  --color-text-muted: #8e949e; /* Приглушенный текст (подписи, лейблы) */
+
+  --color-border: #151c29; /* Цвет сеток и бордеров */
 }
 
 @theme inline {
