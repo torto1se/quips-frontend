@@ -17,25 +17,22 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   const config: RequestInit = {
     ...options,
     headers,
+    credentials: 'include',
   };
 
-  try {
-    const response = await fetch(url, config);
+  const response = await fetch(url, config);
 
-    if (!response.ok) {
-      const errorData = (await response.json().catch(() => ({}))) as Partial<ErrorResponse>;
+  if (!response.ok) {
+    const errorData = (await response.json().catch(() => ({}))) as Partial<ErrorResponse>;
 
-      const message = Array.isArray(errorData.message)
-        ? errorData.message.join('. ')
-        : errorData.message || `Ошибка сервера: ${response.status}`;
+    const message = Array.isArray(errorData.message)
+      ? errorData.message.join('. ')
+      : errorData.message || `Ошибка сервера: ${response.status}`;
 
-      throw new Error(message);
-    }
-
-    return (await response.json()) as T;
-  } catch (error) {
-    throw error;
+    throw new Error(message);
   }
+
+  return (await response.json()) as T;
 }
 
 export const api = {

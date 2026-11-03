@@ -1,65 +1,82 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { authApi } from '@/api/auth';
 import { LoginData, RegisterData } from '@/types/auth';
 
+interface AuthRequestState {
+  isLoading: boolean;
+  error?: string | null;
+  message?: string | null;
+}
+
+function getErrorMessage(error: unknown, fallback = 'Произошла непредвиденная ошибка'): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  if (typeof error === 'string') {
+    return error;
+  }
+
+  return fallback;
+}
+
 export function useAuth() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
 
-  // Функция для обработки входа
-  const login = async (data: LoginData) => {
-    setIsLoading(true);
-    setError(null);
-    setSuccessMessage(null);
-    try {
-      const response = await authApi.login(data);
+  const [loginState, setLoginState] = useState<AuthRequestState>({
+    isLoading: false,
+    error: null,
+    message: null,
+  });
 
-      // Сохраняем access_token в localStorage (ровно с тем именем, как шлет NestJS)
-      localStorage.setItem('token', response.access_token);
+  const [registerState, setRegisterState] = useState<AuthRequestState>({
+    isLoading: false,
+    error: null,
+    message: null,
+  });
 
-      console.log('Успешный вход! Данные пользователя:', response.user);
+  const login = useCallback(
+    async (data: LoginData) => {
+      setLoginState({ isLoading: true, error: null, message: null });
 
-      // Игрок успешно залогинился — отправляем его на главный экран свайпать тиммейтов
-      router.push('/');
-    } catch (err: any) {
-      // Сюда автоматически прилетает ваш текст ошибки из NestJS (например, "Неверный пароль")
-      setError(err.message || 'Ошибка авторизации');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      try {
+        const response = await authApi.login(data);
+        setLoginState({ isLoading: false, error: null, message: response.message });
+        localStorage.setItem('token', response.access_token);
+        router.push('/');
+      } catch (error) {
+        setLoginState({ isLoading: false, error: getErrorMessage(error, 'Ошибка авторизации') });
+      }
+    },
+    [router],
+  );
 
-  // Функция для обработки регистрации
-  // onSuccessCallback нужен, чтобы автоматически переключить вкладку таба на "Вход" после успеха
-  const register = async (data: RegisterData, onSuccessCallback?: () => void) => {
-    setIsLoading(true);
-    setError(null);
-    setSuccessMessage(null);
+  const register = useCallback(async (data: RegisterData) => {
+    setRegisterState({ isLoading: true, error: null, message: null });
+
     try {
       const response = await authApi.register(data);
 
-      // Записываем ответ сервера: "Регистрация успешно завершена"
-      setSuccessMessage(response.message);
+      setRegisterState({
+        isLoading: false,
+        error: null,
+        message: response.message,
+      });
 
-      // Если регистрация успешна, ждем 1.5 секунды (чтобы юзер успел прочесть зеленую плашку)
-      // и переключаем его на форму Входа
-      if (onSuccessCallback) {
-        setTimeout(() => {
-          onSuccessCallback();
-        }, 1500);
-      }
-    } catch (err: any) {
-      // Сюда прилетит ошибка 409: "Пользователь с такой почтой уже существует" или 400 (ошибка DTO-валидации)
-      setError(err.message || 'Ошибка при создании аккаунта');
-    } finally {
-      setIsLoading(false);
+      return { success: true };
+    } catch (error) {
+      setRegisterState({
+        isLoading: false,
+        error: getErrorMessage(error, 'Ошибка при создании аккаунта'),
+        message: null,
+      });
+
+      return { success: false };
     }
-  };
+  }, []);
 
-  return { login, register, isLoading, error, successMessage };
+  return { login, register, loginState, registerState };
 }

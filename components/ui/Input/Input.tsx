@@ -1,9 +1,8 @@
-// components/ui/Input/Input.tsx
 'use client';
 
-import { cn } from '@/lib/utils';
+import { useId, useState } from 'react';
 import { Eye, EyeOff, LucideIcon } from 'lucide-react';
-import { useState } from 'react';
+import { cn } from '@/lib/utils';
 import {
   inputContainer,
   inputLabel,
@@ -14,71 +13,75 @@ import {
 } from './Input.styles';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label: string;
   icon?: LucideIcon;
+  error?: string | null;
 }
 
 export default function Input({
   label,
   icon: Icon,
   type = 'text',
+  error,
   className,
-  onChange,
-  value,
-  defaultValue,
-  ...props // Тут остаются остальные HTML-атрибуты вроде required, placeholder и т.д.
+  ...props
 }: InputProps) {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  // Безопасная инициализация текста
-  const [inputValue, setInputValue] = useState(() => {
-    return String(value ?? defaultValue ?? '');
-  });
+  const id = useId();
+  const errorId = `${id}-error`;
+  const [showPassword, setShowPassword] = useState(false);
 
   const isPassword = type === 'password';
-  const hasText = inputValue.length > 0;
   const inputType = isPassword && showPassword ? 'text' : type;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    if (onChange) onChange(e);
-  };
-
-  const dynamicInputClasses = getInputClasses({
-    hasText,
-    hasIcon: !!Icon,
-    isPassword,
-  });
 
   return (
     <div className={inputContainer}>
-      {label && <label className={inputLabel}>{label}</label>}
-
-      <div
-        className={inputWrapper}
-        data-has-text={hasText}
+      <label
+        htmlFor={id}
+        className={inputLabel}
       >
+        {label}
+      </label>
+
+      <div className={inputWrapper}>
         {Icon && <Icon className={inputLeftIcon} />}
 
         <input
+          id={id}
           type={inputType}
-          value={value !== undefined ? value : inputValue} // Избавляемся от одновременного value и defaultValue
-          onChange={handleInputChange}
-          className={cn(dynamicInputClasses, className)}
-          {...props} // Теперь props безопасны и не перезапишут value заново
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : undefined}
+          className={cn(
+            getInputClasses({
+              hasIcon: Boolean(Icon),
+              isPassword,
+            }),
+            className,
+          )}
+          {...props}
         />
 
         {isPassword && (
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => setShowPassword((prev) => !prev)}
+            onMouseDown={(event) => event.preventDefault()}
             className={inputPasswordButton}
+            aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
           >
-            {showPassword ? <Eye className="w-5.5 h-5.5" /> : <EyeOff className="w-5.5 h-5.5" />}
+            {showPassword ? <Eye /> : <EyeOff />}
           </button>
         )}
       </div>
+
+      {error && (
+        <p
+          id={errorId}
+          role="alert"
+          className="text-sm text-red-400"
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }
