@@ -1,5 +1,5 @@
-import { LoginData, LoginResponse, RegisterData, RegisterResponse } from '@/types/auth';
-import { api } from './client';
+import { api } from '@/core/api/client';
+import { LoginData, LoginResponse, RegisterData, RegisterResponse } from '@/features/auth/types';
 
 export const authApi = {
   login: async (data: LoginData): Promise<LoginResponse> => {

@@ -1,11 +1,11 @@
 'use client';
 
-import { Sizes } from '@/types/ui';
+import { Sizes } from '@/components/ui/types';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { buttonBase, buttonSizes, buttonVariants } from './Button.styles';
 import { Icon, LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;

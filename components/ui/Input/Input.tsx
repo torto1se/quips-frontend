@@ -2,7 +2,7 @@
 
 import { useId, useState } from 'react';
 import { Eye, EyeOff, LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils';
 import {
   inputContainer,
   inputLabel,
