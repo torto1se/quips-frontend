@@ -1,11 +1,12 @@
 import { cookies } from 'next/headers';
 import { JWTPayload, jwtVerify } from 'jose';
 
-interface UserPayload extends JWTPayload {
+export interface UserPayload extends JWTPayload {
   sub: string;
   email?: string;
   role?: string;
   username?: string;
+  avatarUrl?: string;
 }
 
 export async function getCurrentUser(): Promise<UserPayload | null> {

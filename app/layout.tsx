@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import '@/styles/globals.css';
 import QueryProvider from '@/providers/QueryProvider';
 import { Toaster } from '@/components/ui';
-import Link from 'next/link';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,11 +28,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="ru"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-bg-page text-text-main">
         <QueryProvider>
           <Toaster />
-          <Link href={'/login'}>Вход</Link>
-          <Link href={'/user/test3'}>test3</Link>
           {children}
         </QueryProvider>
       </body>
