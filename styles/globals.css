@@ -14,6 +14,10 @@
 
   --color-text-main: #d5d0da; /* Основной читаемый текст */
   --color-text-muted: #8e949e; /* Приглушенный текст (подписи, лейблы) */
+  --color-success: #16a34a;
+  --color-error: #e02424;
+  --color-warning: #ffb300;
+  --color-info: #1d4ed8;
 
   --color-border: #151c29; /* Цвет сеток и бордеров */
 }

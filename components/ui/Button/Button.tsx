@@ -1,11 +1,12 @@
 'use client';
 
-import { Sizes } from '@/types/ui';
+import { Sizes } from '@/components/ui/types';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { buttonBase, buttonSizes, buttonVariants } from './Button.styles';
 import { Icon, LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Loader } from '@/components/ui/Loader';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -18,7 +19,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-export default function Button({
+export function Button({
   children,
   href,
   icon: Icon,
@@ -59,7 +60,7 @@ export default function Button({
       {...props}
     >
       {Icon && <Icon className={cn('w-5.5 h-5.5 pointer-events-none transition-colors')} />}
-      {isLoading ? <span>Загрузка...</span> : children}
+      {isLoading ? <Loader size={size} /> : children}
     </button>
   );
 }

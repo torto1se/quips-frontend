@@ -1,25 +1,22 @@
 'use client';
 
-import { User, LockKeyhole } from 'lucide-react';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
-import { useAuth } from '@/hooks/useAuth';
+import { Mail, User, LockKeyhole } from 'lucide-react';
+import { Button, Input } from '@/components/ui';
+import { useRegister } from '@/features/auth/hooks/useRegister';
 
-interface LoginFormProps {
-  onSwitchToRegister: () => void;
-}
-
-export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
-  const { login, loginState } = useAuth();
-
+export function RegisterForm() {
+  const { mutate: register, isPending } = useRegister();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    const email = String(formData.get('email') ?? '');
     const username = String(formData.get('username') ?? '').trim();
     const password = String(formData.get('password') ?? '');
 
-    await login({ username, password });
+    if (!email || !username || !password) return;
+
+    register({ email, username, password });
   };
 
   return (
@@ -27,11 +24,14 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
       onSubmit={handleSubmit}
       className="space-y-5"
     >
-      {loginState.error && (
-        <div className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl text-center font-medium animate-fade-in">
-          {loginState.error}
-        </div>
-      )}
+      <Input
+        label="Почта"
+        name="email"
+        autoComplete="email"
+        type="email"
+        icon={Mail}
+        required
+      />
 
       <Input
         label="Никнейм"
@@ -44,7 +44,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
       <Input
         label="Пароль"
         name="password"
-        autoComplete="password"
+        autoComplete="new-password"
         type="password"
         icon={LockKeyhole}
         required
@@ -53,11 +53,11 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
       <Button
         variant="outline"
         type="submit"
-        isLoading={loginState.isLoading}
+        isLoading={isPending}
         isUppercase={true}
         className="font-bold"
       >
-        Войти
+        Создать аккаунт
       </Button>
     </form>
   );

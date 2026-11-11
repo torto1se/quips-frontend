@@ -9,17 +9,15 @@ export interface RegisterData {
   password: string;
 }
 
-export interface UserDto {
+export interface LoginResponse {
   id: string;
   email: string;
   username: string;
   role: string;
-}
-
-export interface LoginResponse {
-  message: string;
-  access_token: string;
-  user: UserDto;
+  avatarUrl: string;
+  isBanned: boolean;
+  bannedAt: string;
+  banReason: string;
 }
 
 export interface RegisterResponse {

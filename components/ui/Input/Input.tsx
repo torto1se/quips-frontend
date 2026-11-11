@@ -18,7 +18,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string | null;
 }
 
-export default function Input({
+export function Input({
   label,
   icon: Icon,
   type = 'text',

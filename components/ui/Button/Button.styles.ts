@@ -1,4 +1,4 @@
-import { Sizes } from '@/types/ui';
+import { Sizes } from '@/components/ui/types';
 
 export const buttonBase =
   'w-full rounded-xl transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ' +
