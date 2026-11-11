@@ -1,12 +1,13 @@
 // components/layout/Sidebar.tsx
 import Link from 'next/link';
 import { LogOut } from 'lucide-react';
-import { UserPayload } from '@/lib/auth-server';
+import { getCurrentUser, UserPayload } from '@/lib/auth-server';
 import Image from 'next/image';
 import { Button } from '@/components/ui';
 import { SidebarNavLinks } from '@/components/layout/Sidebar/SidebarNavLinks';
 
-export function Sidebar({ user }: { user: UserPayload | null }) {
+export async function Sidebar() {
+  const user = await getCurrentUser();
   return (
     <aside className="w-60 bg-bg-card border-r border-border flex flex-col gap-18 h-full shrink-0">
       <div className="pt-8 pl-6 flex items-center">
