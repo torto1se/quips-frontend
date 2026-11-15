@@ -15,9 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return (
-    <Suspense fallback={<Loader size="xl" />}>
-      <LoginForm />
-    </Suspense>
-  );
+  return <LoginForm />;
 }

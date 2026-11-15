@@ -6,13 +6,15 @@ import { type PropsWithChildren, useState } from 'react';
 
 export default function QueryProvider({ children }: PropsWithChildren<unknown>) {
   const [queryClient] = useState(
-    new QueryClient({
-      defaultOptions: {
-        queries: {
-          refetchOnWindowFocus: false,
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            staleTime: 60 * 1000,
+          },
         },
-      },
-    }),
+      }),
   );
 
   return (

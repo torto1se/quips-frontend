@@ -1,33 +1,38 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useSelectedLayoutSegment } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export function ProfileTabs({ username }: { username: string }) {
-  const pathname = usePathname();
+  const segment = useSelectedLayoutSegment();
   const basePath = `/user/${username}`;
 
   const tabs = [
-    { name: 'Обзор', href: basePath },
-    { name: 'Библиотека', href: `${basePath}/library` },
-    { name: 'Комментарии', href: `${basePath}/comments` },
+    { name: 'Обзор', href: basePath, segment: null },
+    { name: 'Библиотека', href: `${basePath}/library`, segment: 'library' },
+    { name: 'Комментарии', href: `${basePath}/comments`, segment: 'comments' },
   ];
 
   return (
-    <div className="flex gap-6 border-b border-gray-800 mt-6">
+    <div className="flex gap-4 border-b border-border px-6">
       {tabs.map((tab) => {
-        const isActive = pathname === tab.href;
+        const isActive = segment === tab.segment;
         return (
           <Link
             key={tab.name}
             href={tab.href}
-            className={`pb-4 px-2 text-sm font-medium transition-colors relative ${
-              isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+            className={`py-3 px-3 text-base transition-all relative   hover:text-text-main ${
+              isActive ? 'text-text-main' : 'text-text-muted '
             }`}
           >
             {tab.name}
             {isActive && (
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-500 rounded-t-md" />
+              <motion.span
+                layoutId="active-tab-indicator"
+                className="absolute -bottom-px left-0 w-full h-px bg-accent shadow-[0_0_8px_var(--color-accent)]"
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              />
             )}
           </Link>
         );

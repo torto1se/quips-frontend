@@ -1,11 +1,10 @@
-// components/layout/SidebarNavLinks.tsx
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search, Heart, MessageCircle, User, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { UserPayload } from '@/lib/auth-server';
+import type { UserPayload } from '@/lib/auth-server';
 
 export function SidebarNavLinks({ user }: { user: UserPayload | null }) {
   const pathname = usePathname();
@@ -19,7 +18,7 @@ export function SidebarNavLinks({ user }: { user: UserPayload | null }) {
   ];
 
   return (
-    <nav className="flex flex-col mx-4 gap-1">
+    <nav className="flex flex-col mx-4 gap-1 font-normal">
       {navItems.map((item) => {
         const isActive =
           pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
@@ -28,7 +27,7 @@ export function SidebarNavLinks({ user }: { user: UserPayload | null }) {
             key={item.name}
             href={item.href}
             className={cn(
-              'flex items-center justify-between px-2 py-3 text-lg font-normal transition-all duration-200 group',
+              'flex items-center justify-between px-2 py-3 text-lg transition-all duration-200 group',
               isActive
                 ? 'bg-accent-dark text-text-main  border-r-2 rounded-lg border-accent'
                 : 'text-text-muted hover:bg-accent-dark/60 hover:rounded-lg border-transparent',
@@ -36,6 +35,7 @@ export function SidebarNavLinks({ user }: { user: UserPayload | null }) {
           >
             <div className="flex items-center gap-3">
               <item.icon
+                strokeWidth={2}
                 className={cn('w-6 h-6', isActive ? 'text-text-main' : 'text-text-muted')}
               />
               {item.name}

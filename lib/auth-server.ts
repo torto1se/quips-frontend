@@ -1,15 +1,20 @@
 import { cookies } from 'next/headers';
 import { JWTPayload, jwtVerify } from 'jose';
+import { cache } from 'react';
+import { cacheLife, cacheTag } from 'next/cache';
 
 export interface UserPayload extends JWTPayload {
-  sub: string;
   email?: string;
   role?: string;
   username?: string;
   avatarUrl?: string;
 }
 
-export async function getCurrentUser(): Promise<UserPayload | null> {
+export const getCurrentUser = cache(async (): Promise<UserPayload | null> => {
+  'use cache: private';
+  cacheTag('current-user');
+  cacheLife({ stale: 300 });
+
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
 
@@ -23,4 +28,4 @@ export async function getCurrentUser(): Promise<UserPayload | null> {
   } catch (error) {
     return null;
   }
-}
+});

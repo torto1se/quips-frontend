@@ -25,8 +25,6 @@ export interface IComment {
   id: string;
   text: string;
   rating: number;
-  authorId: string;
-  profileId: string;
   createdAt: string;
   author: ICommentAuthor;
 }

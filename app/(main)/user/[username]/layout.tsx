@@ -1,6 +1,5 @@
-import { Loader } from '@/components/ui';
 import { ProfileLayoutClient } from '@/features/user';
-import { getCurrentUser } from '@/lib/auth-server';
+import { getCurrentUser, UserPayload } from '@/lib/auth-server';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -36,13 +35,13 @@ export default function Layout({
   params: Promise<{ username: string }>;
 }) {
   return (
-    <Suspense fallback={<Loader size="xl" />}>
-      <LayoutContent params={params}>{children}</LayoutContent>
+    <Suspense fallback={<ProfileLayoutSkeleton />}>
+      <LayoutServer params={params}>{children}</LayoutServer>
     </Suspense>
   );
 }
 
-async function LayoutContent({
+async function LayoutServer({
   children,
   params,
 }: {
@@ -55,10 +54,23 @@ async function LayoutContent({
 
   return (
     <ProfileLayoutClient
-      username={username}
+      params={params}
+      currentUser={currentUser}
       isOwnProfile={isOwnProfile}
     >
       {children}
     </ProfileLayoutClient>
+  );
+}
+
+function ProfileLayoutSkeleton() {
+  return (
+    <div className="max-w-300 mx-auto w-full pb-10 animate-pulse">
+      <div className="relative h-64 bg-gray-900 rounded-b-xl overflow-hidden mb-16" />
+      <div className="px-8 space-y-4">
+        <div className="w-32 h-10 bg-gray-800 rounded-md" />
+        <div className="w-full h-10 bg-gray-800 rounded-md" />
+      </div>
+    </div>
   );
 }
