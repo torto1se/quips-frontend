@@ -1,25 +1,16 @@
 export const inputContainer = 'w-full space-y-1.5';
 
-export const inputLabel = 'block text-sm text-text-main font-medium';
+export const inputLabel = 'block text-sm font-medium text-text-main';
 
-export const inputWrapper = 'relative w-full group';
+export const inputWrapper =
+  'group flex w-full items-center gap-2 rounded-md border border-border bg-bg-primary pl-3 pr-4 transition-colors focus-within:border-accent';
 
-export const inputLeftIcon =
-  'absolute left-4 top-1/2 -translate-y-1/2 w-5.5 h-5.5 pointer-events-none transition-colors text-text-main';
+export const inputWrapperError = 'border-red-400 focus-within:border-red-400';
+
+export const inputIcon = 'h-5 w-5 shrink-0 text-text-main';
+
+export const inputField =
+  'w-full bg-transparent py-2 text-base text-text-main outline-none placeholder:text-text-main/50';
 
 export const inputPasswordButton =
-  'absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer transition-colors text-text-main';
-
-export const inputBase =
-  'w-full rounded-xl bg-bg-primary border border-border py-3 text-base text-text-main transition-colors focus:outline-none focus:border-accent';
-
-interface InputClassOptions {
-  hasIcon: boolean;
-  isPassword: boolean;
-}
-
-export const getInputClasses = ({ hasIcon, isPassword }: InputClassOptions) => {
-  return [inputBase, hasIcon ? 'pl-11.5' : 'px-4', isPassword ? 'pr-12' : 'pr-4']
-    .filter(Boolean)
-    .join(' ');
-};
+  'shrink-0 cursor-pointer text-text-main transition-colors focus:outline-none';

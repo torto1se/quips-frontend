@@ -1,21 +1,24 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { Eye, EyeOff, LucideIcon } from 'lucide-react';
+import { Eye, EyeOff, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   inputContainer,
   inputLabel,
   inputWrapper,
-  inputLeftIcon,
+  inputWrapperError,
+  inputIcon,
+  inputField,
   inputPasswordButton,
-  getInputClasses,
 } from './Input.styles';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   icon?: LucideIcon;
   error?: string | null;
+  action?: React.ReactNode;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 export function Input({
@@ -23,40 +26,47 @@ export function Input({
   icon: Icon,
   type = 'text',
   error,
+  action,
   className,
+  id: externalId,
+  ref,
   ...props
 }: InputProps) {
-  const id = useId();
+  const generatedId = useId();
+  const id = externalId ?? generatedId;
   const errorId = `${id}-error`;
-  const [showPassword, setShowPassword] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === 'password';
   const inputType = isPassword && showPassword ? 'text' : type;
 
   return (
     <div className={inputContainer}>
-      <label
-        htmlFor={id}
-        className={inputLabel}
-      >
-        {label}
-      </label>
+      <div className="flex items-center justify-between gap-2">
+        <label
+          htmlFor={id}
+          className={inputLabel}
+        >
+          {label}
+        </label>
+        {action}
+      </div>
 
-      <div className={inputWrapper}>
-        {Icon && <Icon className={inputLeftIcon} />}
+      <div className={cn(inputWrapper, error && inputWrapperError)}>
+        {Icon && (
+          <Icon
+            className={inputIcon}
+            aria-hidden="true"
+          />
+        )}
 
         <input
+          ref={ref}
           id={id}
           type={inputType}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
-          className={cn(
-            getInputClasses({
-              hasIcon: Boolean(Icon),
-              isPassword,
-            }),
-            className,
-          )}
+          className={cn(inputField, className)}
           {...props}
         />
 
@@ -67,8 +77,9 @@ export function Input({
             onMouseDown={(event) => event.preventDefault()}
             className={inputPasswordButton}
             aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+            aria-pressed={showPassword}
           >
-            {showPassword ? <Eye /> : <EyeOff />}
+            {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
           </button>
         )}
       </div>

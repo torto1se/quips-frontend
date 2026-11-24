@@ -1,8 +1,7 @@
 import { Sizes } from '@/components/ui/types';
 
 export const buttonBase =
-  'w-full rounded-xl transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ' +
-  'disabled:opacity-50 disabled:cursor-not-allowed';
+  'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 cursor-pointer disabled:pointer-events-none disabled:opacity-50';
 
 export const buttonVariants = {
   primary: 'bg-accent text-text-main hover:opacity-90',
@@ -11,8 +10,8 @@ export const buttonVariants = {
 };
 
 export const buttonSizes: Record<Sizes, string> = {
-  sm: 'py-1.5 px-3 text-sm',
-  md: 'py-3 px-4 text-md tracking-wide',
-  lg: 'py-4 px-6 text-lg tracking-wider',
-  xl: 'py-5 px-8 text-xl',
+  sm: 'py-1 px-3 text-sm',
+  md: 'py-2 px-4 text-base tracking-widest',
+  lg: 'py-3 px-6 text-lg tracking-wider',
+  xl: 'py-4 px-8 text-xl',
 };

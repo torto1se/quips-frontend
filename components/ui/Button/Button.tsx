@@ -1,56 +1,38 @@
-'use client';
-
 import { Sizes } from '@/components/ui/types';
-import Link from 'next/link';
 import { ReactNode } from 'react';
 import { buttonBase, buttonSizes, buttonVariants } from './Button.styles';
-import { Icon, LucideIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Loader } from '@/components/ui/Loader';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  href?: string;
   icon?: LucideIcon;
   variant?: keyof typeof buttonVariants;
   size?: Sizes;
   isLoading?: boolean;
   isUppercase?: boolean;
-  className?: string;
 }
 
 export function Button({
   children,
-  href,
   icon: Icon,
   variant = 'primary',
   size = 'md',
   isLoading = false,
   isUppercase = false,
-  className = '',
+  className,
   type = 'button',
   disabled,
   ...props
 }: ButtonProps) {
-  const combinedStyles = cn(`
-    ${buttonBase}
-    ${buttonVariants[variant]}
-    ${buttonSizes[size]} 
-    ${isUppercase ? 'uppercase' : ''}
-    ${isLoading ? 'pointer-events-none opacity-70' : ''}
-    ${className}
-  `);
-
-  if (href && !disabled && !isLoading) {
-    return (
-      <Link
-        href={href}
-        className={combinedStyles}
-      >
-        {children}
-      </Link>
-    );
-  }
+  const combinedStyles = cn(
+    buttonBase,
+    buttonVariants[variant],
+    buttonSizes[size],
+    isUppercase && 'uppercase',
+    className,
+  );
 
   return (
     <button
@@ -59,7 +41,7 @@ export function Button({
       className={combinedStyles}
       {...props}
     >
-      {Icon && <Icon className={cn('w-5.5 h-5.5 pointer-events-none transition-colors')} />}
+      {Icon && <Icon className="w-5 h-5 pointer-events-none" />}
       {isLoading ? <Loader size={size} /> : children}
     </button>
   );

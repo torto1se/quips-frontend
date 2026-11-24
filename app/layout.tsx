@@ -24,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="ru"
       className={`${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex font-sans flex-col outline-none bg-bg-page text-text-main">
+      <body className="h-full flex font-sans flex-col outline-none bg-bg-page text-text-main">
         <QueryProvider>
           <Toaster />
           {children}

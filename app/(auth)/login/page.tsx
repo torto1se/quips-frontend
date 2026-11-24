@@ -1,7 +1,5 @@
-import { Loader } from '@/components/ui';
 import { LoginForm } from '@/features/auth';
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Вход в аккаунт · Quips',
