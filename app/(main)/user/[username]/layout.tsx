@@ -1,5 +1,5 @@
 import { ProfileLayoutClient } from '@/features/user';
-import { getCurrentUser, UserPayload } from '@/lib/auth-server';
+import { getCurrentUser } from '@/lib/auth-server';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -34,32 +34,16 @@ export default function Layout({
   children: React.ReactNode;
   params: Promise<{ username: string }>;
 }) {
+  const currentUserPromise = getCurrentUser();
   return (
     <Suspense fallback={<ProfileLayoutSkeleton />}>
-      <LayoutServer params={params}>{children}</LayoutServer>
+      <ProfileLayoutClient
+        params={params}
+        currentUserPromise={currentUserPromise}
+      >
+        {children}
+      </ProfileLayoutClient>
     </Suspense>
-  );
-}
-
-async function LayoutServer({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ username: string }>;
-}) {
-  const { username } = await params;
-  const currentUser = await getCurrentUser();
-  const isOwnProfile = currentUser?.username === username;
-
-  return (
-    <ProfileLayoutClient
-      params={params}
-      currentUser={currentUser}
-      isOwnProfile={isOwnProfile}
-    >
-      {children}
-    </ProfileLayoutClient>
   );
 }
 

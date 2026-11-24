@@ -28,16 +28,12 @@ export function CommentsTab({ params }: { params: Promise<{ username: string }> 
   };
 
   useEffect(() => {
-    // Если данные загружены и мы на странице, которой больше не существует
     if (commentsData?.meta) {
       const totalPages = commentsData.meta.totalPages;
 
-      // Если текущая страница больше общего количества страниц, перекидываем на последнюю доступную
       if (page > totalPages && totalPages > 0) {
         updateUrl(totalPages, limit);
-      }
-      // Резервная проверка: если на странице пусто, но мы не на первой странице
-      else if (commentsData.comments.length === 0 && page > 1) {
+      } else if (commentsData.comments.length === 0 && page > 1) {
         updateUrl(page - 1, limit);
       }
     }

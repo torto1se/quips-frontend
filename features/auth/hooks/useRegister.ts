@@ -3,7 +3,8 @@
 import { toast } from '@/components/ui';
 import { auth } from '@/features/auth/api';
 import { RegisterData } from '@/features/auth/types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ApiError } from '@/lib/api/client';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 export function useRegister() {
@@ -15,7 +16,7 @@ export function useRegister() {
       toast.success(data.message);
       router.push('/login');
     },
-    onError: (error) => {
+    onError: (error: ApiError) => {
       toast.error(error.message);
     },
   });

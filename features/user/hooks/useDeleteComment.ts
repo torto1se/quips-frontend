@@ -1,3 +1,5 @@
+'use client';
+
 import { toast } from '@/components/ui';
 import { user } from '@/features/user/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

@@ -1,3 +1,5 @@
+'use client';
+
 import { user } from '@/features/user/api';
 import { UserProfileResponse } from '@/features/user/types';
 import { useQuery } from '@tanstack/react-query';

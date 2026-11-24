@@ -1,13 +1,30 @@
 'use client';
 
-import { Button } from '@/components/ui';
-import { logoutAction } from '@/features/auth/actions';
+import { Button, toast } from '@/components/ui';
+import { api } from '@/lib/api/client';
 import { UserPayload } from '@/lib/auth-server';
 import { LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export function SidebarUser({ user }: { user: UserPayload | null }) {
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      await api.post('/auth/logout', {});
+      toast.success('Вы вышли из аккаунта');
+      router.push('/');
+      router.refresh();
+    } catch (e) {
+      toast.error('Ошибка');
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
   return (
     <>
       {!user ? (
@@ -25,6 +42,7 @@ export function SidebarUser({ user }: { user: UserPayload | null }) {
                   <Image
                     src={user.avatarUrl}
                     alt={user.username || 'User'}
+                    sizes="48px"
                     fill
                     className="object-cover"
                   />
@@ -42,15 +60,15 @@ export function SidebarUser({ user }: { user: UserPayload | null }) {
                 <span className="text-sm text-success">В сети</span>
               </div>
             </div>
-            <form action={logoutAction}>
-              <button
-                type="submit"
-                aria-label="Выйти из аккаунта"
-                className=""
-              >
-                <LogOut className="w-6 h-6 text-text-muted hover:text-text-main transition-colors" />
-              </button>
-            </form>
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              type="button"
+              aria-label="Выйти из аккаунта"
+              className="disabled:opacity-50"
+            >
+              <LogOut className="w-6 h-6 text-text-muted hover:text-text-main transition-colors" />
+            </button>
           </div>
         </div>
       )}

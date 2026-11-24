@@ -1,6 +1,6 @@
 export class ApiError extends Error {
   constructor(
-    public message: string,
+    message: string,
     public status: number,
   ) {
     super(message);
@@ -8,12 +8,16 @@ export class ApiError extends Error {
   }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL не установлено');
+}
 
 export async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
 
-  if (!headers.has('Content-Type')) {
+  if (options.body && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json');
   }
 
@@ -24,9 +28,9 @@ export async function request<T>(endpoint: string, options: RequestInit = {}): P
   };
 
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, config);
+    const response = await fetch(`${API_URL}${endpoint}`, config);
 
-    if (response.status === 204) return {} as T;
+    if (response.status === 204) return undefined as T;
 
     if (!response.ok) {
       let message = `Ошибка сервера: ${response.status}`;
@@ -43,7 +47,12 @@ export async function request<T>(endpoint: string, options: RequestInit = {}): P
     }
 
     const text = await response.text();
-    return text ? JSON.parse(text) : ({} as T);
+    if (!text) return undefined as T;
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      throw new ApiError('Сервер вернул некорректный ответ', response.status);
+    }
   } catch (error) {
     if (error instanceof ApiError) throw error;
     throw new ApiError('Не удалось связаться с сервером', 500);

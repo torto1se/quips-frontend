@@ -14,7 +14,6 @@ interface CommentCardProps {
 
 export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }: CommentCardProps) {
   const { isOwnProfile, user, currentUser } = useProfileContext();
-  const isCard = variant === 'card';
   const canDelete =
     currentUser?.username === comment.author.username || currentUser?.username === user?.username;
 
@@ -25,9 +24,7 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
   };
 
   return (
-    <div
-      className={cn('bg-transparent relative border border-border md:p-4  rounded-lg flex gap-4')}
-    >
+    <div className={cn('bg-transparent relative border border-border p-4 rounded-lg flex gap-4')}>
       {canDelete && (
         <button
           onClick={handleDelete}
@@ -37,7 +34,6 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
           <Trash size={20} />
         </button>
       )}
-      {/* Блок аватара и имени */}
       <div className={cn('flex flex-col gap-4')}>
         <div className="flex gap-2">
           <div className="shrink-0">
@@ -71,7 +67,6 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
           </div>
         </div>
 
-        {/* Информация о комментарии */}
         <div className="flex flex-col gap-2 min-w-0 flex-1">
           <div className={cn('flex items-center gap-1')}>
             {Array.from({ length: 5 }).map((_, index) => (
@@ -80,8 +75,8 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
                 size={16}
                 className={
                   index < comment.rating
-                    ? 'fill-accent text-accent' // Закрашенная звезда
-                    : 'fill-transparent text-accent' // Пустая звезда
+                    ? 'fill-accent text-accent'
+                    : 'fill-transparent text-accent'
                 }
               />
             ))}

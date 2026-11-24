@@ -7,30 +7,20 @@ import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 import { ProfileProvider } from '@/features/user/providers/ProfileContext';
 import { UserPayload } from '@/lib/auth-server';
 import Image from 'next/image';
-import { Suspense, use } from 'react';
-
-function TabsSkeleton() {
-  return (
-    <div className="flex gap-6 border-b border-gray-800 mt-6 animate-pulse">
-      <div className="pb-4 px-2 w-20 h-9 bg-gray-800/50 rounded" />
-      <div className="pb-4 px-2 w-24 h-9 bg-gray-800/50 rounded" />
-      <div className="pb-4 px-2 w-28 h-9 bg-gray-800/50 rounded" />
-    </div>
-  );
-}
+import { use } from 'react';
 
 export function ProfileLayoutClient({
   params,
   children,
-  isOwnProfile,
-  currentUser,
+  currentUserPromise,
 }: {
   params: Promise<{ username: string }>;
   children: React.ReactNode;
-  isOwnProfile: boolean;
-  currentUser: UserPayload | null;
+  currentUserPromise: Promise<UserPayload | null>;
 }) {
   const { username } = use(params);
+  const currentUser = use(currentUserPromise);
+  const isOwnProfile = currentUser?.username === username;
   const { data: user, isLoading, error } = useUserProfile(username);
 
   if (error) return <div>{error.message}</div>;
@@ -51,7 +41,7 @@ export function ProfileLayoutClient({
                 <Image
                   src={user.avatarUrl}
                   width={144}
-                  height={144}
+                  sizes="144px"
                   alt="avatar"
                   priority
                   className="w-full h-full object-cover"
@@ -61,6 +51,7 @@ export function ProfileLayoutClient({
                   alt="avatar"
                   width={144}
                   height={144}
+                  sizes="144px"
                   priority
                   src={'/default-avatar.png'}
                 />
@@ -81,21 +72,19 @@ export function ProfileLayoutClient({
 
         <div className="px-8">
           <div className="flex flex-col lg:flex-row items-start gap-8 mt-8">
-            {/* ОБЩИЙ БЛОК ДЛЯ ТАБОВ И КОНТЕНТА */}
             <div className="flex-1 min-w-0 w-full bg-bg-card border border-border rounded-xl overflow-hidden flex flex-col">
-              <Suspense fallback={<TabsSkeleton />}>
-                <ProfileTabs username={username} />
-              </Suspense>
+              <ProfileTabs username={username} />
 
-              {/* Контент активного таба с внутренними отступами */}
               <div className="p-6 flex-1">{children}</div>
             </div>
 
-            {!isLoading && (
-              <div className="w-full lg:w-80 shrink-0">
+            <div className="w-full lg:w-80 shrink-0">
+              {isLoading ? (
+                <div className="w-full h-100 bg-bg-card border border-border rounded-xl animate-pulse" />
+              ) : (
                 <ProfileSidebar profile={user?.profile} />
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

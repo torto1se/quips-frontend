@@ -14,7 +14,7 @@ export function SidebarNavLinks({ user }: { user: UserPayload | null }) {
     { name: 'Поиск', href: '/search', icon: Search },
     { name: 'Матчи', href: '/matches', icon: Heart, badge: '12' },
     { name: 'Чаты', href: '/chats', icon: MessageCircle, badge: '99+' },
-    { name: 'Профиль', href: `/user/${user?.username}`, icon: User },
+    { name: 'Профиль', href: user ? `/user/${user?.username}` : '/login', icon: User },
   ];
 
   return (

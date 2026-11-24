@@ -14,10 +14,7 @@ export interface LoginResponse {
   email: string;
   username: string;
   role: string;
-  avatarUrl: string;
-  isBanned: boolean;
-  bannedAt: string;
-  banReason: string;
+  avatarUrl?: string;
 }
 
 export interface RegisterResponse {
