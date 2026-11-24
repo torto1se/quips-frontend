@@ -22,8 +22,8 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="flex flex-col gap-4 h-full items-center justify-center text-text-main">
-      <div className="flex flex-col gap-4 items-center">
+    <div className="text-text-main flex h-full flex-col items-center justify-center gap-4">
+      <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-2">
           <Link href={'/'}>
             <Image
@@ -40,27 +40,27 @@ export function RegisterForm() {
         <h1 className="text-xl">Создать аккаунт</h1>
       </div>
       <form
+        className="flex flex-col items-center space-y-5"
         onSubmit={handleSubmit}
-        className="space-y-5 flex flex-col items-center"
       >
         <Input
-          label="Почта"
           name="email"
+          label="Почта"
           autoComplete="email"
           type="email"
           icon={Mail}
           required
         />
         <Input
-          label="Никнейм"
           name="username"
+          label="Никнейм"
           autoComplete="username"
           icon={User}
           required
         />
         <Input
-          label="Пароль"
           name="password"
+          label="Пароль"
           autoComplete="current-password"
           type="password"
           icon={LockKeyhole}
@@ -68,11 +68,11 @@ export function RegisterForm() {
         />
 
         <Button
+          className="w-full font-bold"
           variant="outline"
           type="submit"
           isLoading={isPending}
           isUppercase
-          className="font-bold w-full"
         >
           Создать аккаунт
         </Button>
@@ -80,8 +80,8 @@ export function RegisterForm() {
         <span>
           Уже есть аккаунт?{' '}
           <Link
-            href={'/login'}
             className="text-accent hover:underline"
+            href={'/login'}
           >
             Войти
           </Link>

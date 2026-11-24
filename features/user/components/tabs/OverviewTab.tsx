@@ -14,12 +14,12 @@ export function OverviewTab({ params }: { params: Promise<{ username: string }> 
 
   return (
     <div className="w-full space-y-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-bold">Комментарии</h2>
         {commentsData && (
           <Link
+            className="text-text-muted hover:text-text-main border-border rounded border px-3 py-1 text-sm transition-colors"
             href={`/user/${username}/comments`}
-            className="text-sm text-text-muted hover:text-text-main  px-3 py-1 rounded transition-colors border border-border"
           >
             Показать все
           </Link>
@@ -27,7 +27,7 @@ export function OverviewTab({ params }: { params: Promise<{ username: string }> 
       </div>
 
       {isCommentsLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           <CommentSkeleton variant="card" />
           <CommentSkeleton variant="card" />
           <CommentSkeleton variant="card" />
@@ -35,7 +35,7 @@ export function OverviewTab({ params }: { params: Promise<{ username: string }> 
       ) : !commentsData?.comments.length ? (
         <div className="text-text-muted">Комментариев пока нет</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {commentsData.comments.map((comment) => (
             <CommentCard
               key={comment.id}

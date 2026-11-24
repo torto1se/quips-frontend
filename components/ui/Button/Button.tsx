@@ -36,12 +36,12 @@ export function Button({
 
   return (
     <button
+      className={combinedStyles}
       type={type}
       disabled={disabled || isLoading}
-      className={combinedStyles}
       {...props}
     >
-      {Icon && <Icon className="w-5 h-5 pointer-events-none" />}
+      {Icon && <Icon className="pointer-events-none h-5 w-5" />}
       {isLoading ? <Loader size={size} /> : children}
     </button>
   );

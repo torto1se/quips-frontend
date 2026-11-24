@@ -22,9 +22,9 @@ export function Loader({
 }: LoaderProps) {
   return (
     <Loader2
-      aria-label={ariaLabel}
-      role="status"
       className={cn('animate-spin text-current', sizeMap[size], className)}
+      role="status"
+      aria-label={ariaLabel}
     />
   );
 }

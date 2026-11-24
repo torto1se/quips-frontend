@@ -49,11 +49,11 @@ export default function Layout({
 
 function ProfileLayoutSkeleton() {
   return (
-    <div className="max-w-300 mx-auto w-full pb-10 animate-pulse">
-      <div className="relative h-64 bg-gray-900 rounded-b-xl overflow-hidden mb-16" />
-      <div className="px-8 space-y-4">
-        <div className="w-32 h-10 bg-gray-800 rounded-md" />
-        <div className="w-full h-10 bg-gray-800 rounded-md" />
+    <div className="mx-auto w-full max-w-300 animate-pulse pb-10">
+      <div className="relative mb-16 h-64 overflow-hidden rounded-b-xl bg-gray-900" />
+      <div className="space-y-4 px-8">
+        <div className="h-10 w-32 rounded-md bg-gray-800" />
+        <div className="h-10 w-full rounded-md bg-gray-800" />
       </div>
     </div>
   );

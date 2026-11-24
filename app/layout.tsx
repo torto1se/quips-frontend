@@ -21,10 +21,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
-      lang="ru"
       className={`${inter.variable} h-full antialiased`}
+      lang="ru"
     >
-      <body className="h-full flex font-sans flex-col outline-none bg-bg-page text-text-main">
+      <body className="bg-bg-page text-text-main flex h-full flex-col font-sans outline-none">
         <QueryProvider>
           <Toaster />
           {children}

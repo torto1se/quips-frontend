@@ -10,7 +10,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Suspense fallback={<SidebarSkeleton />}>
         <Sidebar currentUserPromise={currentUserPromise} />
       </Suspense>
-      <main className="flex-1 overflow-y-auto overflow-x-hidden">{children}</main>
+      <main className="flex-1 overflow-x-hidden overflow-y-auto">{children}</main>
     </div>
   );
 }

@@ -31,20 +31,20 @@ export function ProfileLayoutClient({
       user={user}
       currentUser={currentUser}
     >
-      <div className="w-full p-8 pb-10 max-w-350 mx-auto">
-        <div className="flex items-center h-52 bg-gray-900 rounded-2xl overflow-hidden mb-16 p-8">
-          <div className="flex items-center gap-6 z-10">
-            <div className="w-36 h-36 rounded-full border border-accent overflow-hidden bg-gray-800 relative">
+      <div className="mx-auto w-full max-w-350 p-8 pb-10">
+        <div className="mb-16 flex h-52 items-center overflow-hidden rounded-2xl bg-gray-900 p-8">
+          <div className="z-10 flex items-center gap-6">
+            <div className="border-accent relative h-36 w-36 overflow-hidden rounded-full border bg-gray-800">
               {isLoading ? (
-                <div className="w-full h-full bg-gray-700 animate-pulse" />
+                <div className="h-full w-full animate-pulse bg-gray-700" />
               ) : user?.avatarUrl ? (
                 <Image
+                  className="h-full w-full object-cover"
                   src={user.avatarUrl}
                   width={144}
                   sizes="144px"
                   alt="avatar"
                   priority
-                  className="w-full h-full object-cover"
                 />
               ) : (
                 <Image
@@ -58,11 +58,11 @@ export function ProfileLayoutClient({
               )}
             </div>
             <div className="flex flex-col gap-4">
-              <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-4">
                 <h1 className="text-3xl font-bold text-white">{user?.username}</h1>
-                <p className="text-success bg-success/10 py-1 px-2 rounded-lg text-sm">В сети</p>
+                <p className="text-success bg-success/10 rounded-lg px-2 py-1 text-sm">В сети</p>
               </div>
-              <p className="text-gray-400 text-base">Статус</p>
+              <p className="text-base text-gray-400">Статус</p>
               <div>
                 <Button size="md">{isOwnProfile ? 'Редактировать' : 'Сообщение'}</Button>
               </div>
@@ -71,16 +71,16 @@ export function ProfileLayoutClient({
         </div>
 
         <div className="px-8">
-          <div className="flex flex-col lg:flex-row items-start gap-8 mt-8">
-            <div className="flex-1 min-w-0 w-full bg-bg-card border border-border rounded-xl overflow-hidden flex flex-col">
+          <div className="mt-8 flex flex-col items-start gap-8 lg:flex-row">
+            <div className="bg-bg-card border-border flex w-full min-w-0 flex-1 flex-col overflow-hidden rounded-xl border">
               <ProfileTabs username={username} />
 
-              <div className="p-6 flex-1">{children}</div>
+              <div className="flex-1 p-6">{children}</div>
             </div>
 
-            <div className="w-full lg:w-80 shrink-0">
+            <div className="w-full shrink-0 lg:w-80">
               {isLoading ? (
-                <div className="w-full h-100 bg-bg-card border border-border rounded-xl animate-pulse" />
+                <div className="bg-bg-card border-border h-100 w-full animate-pulse rounded-xl border" />
               ) : (
                 <ProfileSidebar profile={user?.profile} />
               )}

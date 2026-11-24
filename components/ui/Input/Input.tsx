@@ -44,8 +44,8 @@ export function Input({
     <div className={inputContainer}>
       <div className="flex items-center justify-between gap-2">
         <label
-          htmlFor={id}
           className={inputLabel}
+          htmlFor={id}
         >
           {label}
         </label>
@@ -61,21 +61,21 @@ export function Input({
         )}
 
         <input
-          ref={ref}
+          className={cn(inputField, className)}
           id={id}
+          ref={ref}
           type={inputType}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
-          className={cn(inputField, className)}
           {...props}
         />
 
         {isPassword && (
           <button
+            className={inputPasswordButton}
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
             onMouseDown={(event) => event.preventDefault()}
-            className={inputPasswordButton}
             aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
             aria-pressed={showPassword}
           >
@@ -86,9 +86,9 @@ export function Input({
 
       {error && (
         <p
+          className="text-sm text-red-400"
           id={errorId}
           role="alert"
-          className="text-sm text-red-400"
         >
           {error}
         </p>

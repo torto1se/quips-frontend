@@ -11,5 +11,8 @@
   "htmlWhitespaceSensitivity": "ignore",
   "singleAttributePerLine": true,
   "bracketSameLine": false,
-  "proseWrap": "always"
+  "proseWrap": "always",
+
+  "plugins": ["prettier-plugin-tailwindcss", "@xeonlink/prettier-plugin-organize-attributes"],
+  "attributeGroups": ["^className$", "^(id|name)$", "$DEFAULT", "^aria-"]
 }

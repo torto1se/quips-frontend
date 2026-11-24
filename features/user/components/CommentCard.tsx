@@ -24,12 +24,12 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
   };
 
   return (
-    <div className={cn('bg-transparent relative border border-border p-4 rounded-lg flex gap-4')}>
+    <div className={cn('border-border relative flex gap-4 rounded-lg border bg-transparent p-4')}>
       {canDelete && (
         <button
+          className="text-text-muted hover:text-text-main absolute top-4 right-4 cursor-pointer transition-all disabled:cursor-not-allowed disabled:opacity-50"
           onClick={handleDelete}
           disabled={isDeleting}
-          className="absolute top-4 right-4 cursor-pointer text-text-muted hover:text-text-main transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Trash size={20} />
         </button>
@@ -39,23 +39,23 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
           <div className="shrink-0">
             {comment.author.avatarUrl ? (
               <Image
+                className="border-accent h-12 w-12 rounded-full border object-cover"
                 src={comment.author.avatarUrl}
                 alt={comment.author.username}
                 width={48}
                 height={48}
-                className="rounded-full object-cover border border-accent w-12 h-12"
               />
             ) : (
-              <div className="rounded-full border border-accent bg-gray-700 flex items-center justify-center text-gray-400 font-bold w-12 h-12 text-base">
+              <div className="border-accent flex h-12 w-12 items-center justify-center rounded-full border bg-gray-700 text-base font-bold text-gray-400">
                 {comment.author.username.charAt(0).toUpperCase()}
               </div>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <span className="font-bold text-base text-text-main truncate">
+            <span className="text-text-main truncate text-base font-bold">
               {comment.author.username}
             </span>
-            <span className="text-sm text-text-muted whitespace-nowrap">
+            <span className="text-text-muted text-sm whitespace-nowrap">
               {new Date(comment.createdAt).toLocaleDateString('ru-RU', {
                 day: 'numeric',
                 month: 'short',
@@ -67,21 +67,21 @@ export function CommentCard({ comment, variant = 'list', onDelete, isDeleting }:
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 min-w-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
           <div className={cn('flex items-center gap-1')}>
             {Array.from({ length: 5 }).map((_, index) => (
               <Star
-                key={index}
-                size={16}
                 className={
                   index < comment.rating
                     ? 'fill-accent text-accent'
-                    : 'fill-transparent text-accent'
+                    : 'text-accent fill-transparent'
                 }
+                key={index}
+                size={16}
               />
             ))}
           </div>
-          <p className="text-text-main text-base wrap-break-word mt-1">{comment.text}</p>
+          <p className="text-text-main mt-1 text-base wrap-break-word">{comment.text}</p>
         </div>
       </div>
     </div>

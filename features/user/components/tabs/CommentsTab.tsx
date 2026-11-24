@@ -50,23 +50,23 @@ export function CommentsTab({ params }: { params: Promise<{ username: string }> 
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-bold">
           Все комментарии ({commentsData?.meta.totalCount || 0})
         </h2>
 
         <div className="flex items-center gap-2">
           <label
+            className="text-text-muted text-sm"
             htmlFor="limit-select"
-            className="text-sm text-text-muted"
           >
             Показывать по:
           </label>
           <select
+            className="bg-bg-page border-border text-text-muted cursor-pointer rounded-lg border px-3 py-1.5 text-sm transition-all outline-none"
             id="limit-select"
             value={limit}
             onChange={handleLimitChange}
-            className="bg-bg-page border border-border text-sm rounded-lg px-3 py-1.5 outline-none text-text-muted cursor-pointer transition-all"
           >
             <option value={5}>5</option>
             <option value={10}>10</option>
@@ -76,7 +76,7 @@ export function CommentsTab({ params }: { params: Promise<{ username: string }> 
         </div>
       </div>
       <div
-        className={`space-y-4 transition-opacity duration-200 ${isPlaceholderData ? 'opacity-50 pointer-events-none' : ''}`}
+        className={`space-y-4 transition-opacity duration-200 ${isPlaceholderData ? 'pointer-events-none opacity-50' : ''}`}
       >
         {!commentsData && isFetching && (
           <div className="space-y-4">
@@ -100,7 +100,7 @@ export function CommentsTab({ params }: { params: Promise<{ username: string }> 
         ))}
       </div>
       {commentsData && commentsData?.meta.totalPages > 1 && (
-        <div className="flex justify-center items-center gap-4 mt-8 pt-4 border-t border-gray-800">
+        <div className="mt-8 flex items-center justify-center gap-4 border-t border-gray-800 pt-4">
           <Button
             disabled={page === 1 || isPlaceholderData}
             onClick={() => handlePageChange(page - 1)}
@@ -109,10 +109,10 @@ export function CommentsTab({ params }: { params: Promise<{ username: string }> 
             Назад
           </Button>
 
-          <span className="text-sm text-gray-400 flex items-center gap-2">
+          <span className="flex items-center gap-2 text-sm text-gray-400">
             Страница {page} из {commentsData?.meta.totalPages}
             {isPlaceholderData && (
-              <span className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-gray-400 border-t-transparent" />
             )}
           </span>
 
