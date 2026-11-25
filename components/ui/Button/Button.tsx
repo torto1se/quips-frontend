@@ -2,8 +2,8 @@ import { Sizes } from '@/components/ui/types';
 import { ReactNode } from 'react';
 import { buttonBase, buttonSizes, buttonVariants } from './Button.styles';
 import { LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { Loader } from '@/components/ui/Loader';
+import { cn } from '@/lib/utils';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;

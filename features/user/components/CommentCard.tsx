@@ -1,12 +1,13 @@
-'use client'; // Обязательно, так как мы используем useState
+'use client';
 
-import { useState } from 'react'; // Добавили useState
+import { useState } from 'react';
 import { ConfirmModal } from '@/components/ui';
 import { useProfileContext } from '@/features/user/providers/ProfileContext';
 import { IComment } from '@/features/user/types';
 import { cn } from '@/lib/utils';
 import { Star, Trash } from 'lucide-react';
 import Image from 'next/image';
+import { formatDate } from '@/lib/utils/date';
 
 interface CommentCardProps {
   comment: IComment;
@@ -61,13 +62,7 @@ export function CommentCard({ comment, onDelete, isDeleting }: CommentCardProps)
                 {comment.author.username}
               </span>
               <span className="text-text-muted text-sm whitespace-nowrap">
-                {new Date(comment.createdAt).toLocaleDateString('ru-RU', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+                {formatDate(comment.createdAt)}
               </span>
             </div>
           </div>
