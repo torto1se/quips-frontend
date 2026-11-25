@@ -20,8 +20,8 @@ export function ProfileLayoutClient({
 }) {
   const { username } = use(params);
   const currentUser = use(currentUserPromise);
-  const isOwnProfile = currentUser?.username === username;
   const { data: user, isLoading, error } = useUserProfile(username);
+  const isOwnProfile = currentUser?.username === username;
 
   if (error) return <div>{error.message}</div>;
 

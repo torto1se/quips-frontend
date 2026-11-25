@@ -10,7 +10,7 @@ import { use } from 'react';
 export function OverviewTab({ params }: { params: Promise<{ username: string }> }) {
   const { username } = use(params);
   const { data: commentsData, isLoading: isCommentsLoading } = useUserComments(username, 1, 3);
-  const { mutate: deleteComment, isPending: isDeleting } = useDeleteComment(username);
+  const { mutateAsync: deleteComment, isPending: isDeleting } = useDeleteComment(username);
 
   return (
     <div className="w-full space-y-8">
@@ -42,7 +42,6 @@ export function OverviewTab({ params }: { params: Promise<{ username: string }> 
               comment={comment}
               onDelete={deleteComment}
               isDeleting={isDeleting}
-              variant="card"
             />
           ))}
         </div>

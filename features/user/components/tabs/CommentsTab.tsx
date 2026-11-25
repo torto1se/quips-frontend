@@ -15,7 +15,7 @@ export function CommentsTab({ params }: { params: Promise<{ username: string }> 
   const page = Number(searchParams.get('page')) || 1;
   const limit = Number(searchParams.get('limit')) || 5;
 
-  const { mutate: deleteComment, isPending: isDeleting } = useDeleteComment(username);
+  const { mutateAsync: deleteComment, isPending: isDeleting } = useDeleteComment(username);
 
   const {
     data: commentsData,

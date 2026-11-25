@@ -26,23 +26,36 @@ export function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  const combinedStyles = cn(
-    buttonBase,
-    buttonVariants[variant],
-    buttonSizes[size],
-    isUppercase && 'uppercase',
-    className,
-  );
+  const isDisabled = disabled || isLoading;
 
   return (
     <button
-      className={combinedStyles}
+      className={cn(
+        buttonBase,
+        buttonVariants[variant],
+        buttonSizes[size],
+        isUppercase && 'uppercase',
+        className,
+      )}
       type={type}
-      disabled={disabled || isLoading}
+      disabled={isDisabled}
       {...props}
     >
-      {Icon && <Icon className="pointer-events-none h-5 w-5" />}
-      {isLoading ? <Loader size={size} /> : children}
+      <span
+        className={cn(
+          'inline-flex items-center justify-center gap-2 transition-opacity',
+          isLoading && 'invisible',
+        )}
+      >
+        {Icon && <Icon className="pointer-events-none h-5 w-5" />}
+        {children}
+      </span>
+
+      {isLoading && (
+        <span className="absolute inset-0 flex items-center justify-center">
+          <Loader size={size} />
+        </span>
+      )}
     </button>
   );
 }

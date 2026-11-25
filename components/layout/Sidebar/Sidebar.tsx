@@ -14,11 +14,11 @@ export function Sidebar({
 }) {
   const currentUser = use(currentUserPromise);
   return (
-    <aside className="w-60 bg-bg-card border-r border-border flex flex-col gap-18 h-full shrink-0">
-      <div className="pt-8 pl-6 flex items-center">
+    <aside className="bg-bg-card border-border flex h-full w-60 shrink-0 flex-col gap-18 border-r">
+      <div className="flex items-center pt-8 pl-6">
         <Link
-          href="/"
           className="flex items-center gap-3"
+          href="/"
         >
           <div className="relative flex items-center justify-center">
             <Image
@@ -28,17 +28,17 @@ export function Sidebar({
               alt="Quips"
               priority
             />
-            <div className="absolute w-2.5 h-2.5 bg-purple-500 rounded-full" />
+            <div className="absolute h-2.5 w-2.5 rounded-full bg-purple-500" />
           </div>
           <span className="text-3xl font-semibold tracking-widest uppercase">Quips</span>
         </Link>
       </div>
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         <SidebarNavLinks user={currentUser} />
 
         <div className="mt-auto">
-          <div className="h-0 border-t border-border" />
+          <div className="border-border h-0 border-t" />
           <SidebarUser user={currentUser} />
         </div>
       </div>
